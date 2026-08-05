@@ -10,13 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
-        implements CardAdapter.OnCardLongClickListener, CardAdapter.OnCardClickListener {
+        implements CardAdapter.OnCardLongClickListener {
 
     private CardAdapter cardAdapter;
     private FlashNoteDatabase database;
@@ -38,12 +38,12 @@ public class HomeActivity extends AppCompatActivity
         }
 
         RecyclerView cardsRecyclerView = findViewById(R.id.cardsRecyclerView);
-        FloatingActionButton addCardButton = findViewById(R.id.addCardButton);
+        ExtendedFloatingActionButton addCardButton = findViewById(R.id.addCardButton);
         emptyStateText = findViewById(R.id.emptyStateText);
 
         database = FlashNoteDatabase.getInstance(getApplicationContext());
 
-        cardAdapter = new CardAdapter(new ArrayList<>(), this, this);
+        cardAdapter = new CardAdapter(new ArrayList<>(), this);
         cardsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         cardsRecyclerView.setAdapter(cardAdapter);
 
@@ -75,15 +75,6 @@ public class HomeActivity extends AppCompatActivity
                 emptyStateText.setVisibility(cards.isEmpty() ? View.VISIBLE : View.GONE);
             });
         }).start();
-    }
-
-    @Override
-    public void onCardClick(Card card) {
-        Intent intent = new Intent(this, CardViewActivity.class);
-        intent.putExtra("card_id", card.id);
-        intent.putExtra("card_front", card.front);
-        intent.putExtra("card_back", card.back);
-        startActivity(intent);
     }
 
     @Override

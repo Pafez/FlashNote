@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">FlashNote</string>
+    <string name="my_decks">My Decks</string>
+    <string name="decks_subtitle">Your collection of flashcards</string>
+    <string name="new_deck">New Deck</string>
+    <string name="my_cards">My Cards</string>
+    <string name="new_card">New Card</string>
+    <string name="empty_cards_message">No cards yet.\nTap + to add one.</string>
+    <string name="label_front">FRONT</string>
+    <string name="label_back">BACK</string>
+    <string name="card_details_title">Card Details</string>
+    <string name="edit">Edit</string>
+    <string name="close">Close</string>
+    <string name="card_builder_title">Card Builder</string>
+    <string name="source_text_label">Source text (OCR):</string>
+    <string name="front_label">Front of Card:</string>
+    <string name="back_label">Back of Card:</string>
+    <string name="hint_front">Enter question or term</string>
+    <string name="hint_back">Enter answer or definition</string>
+    <string name="done">Done</string>
+    <string name="import_cards_title">Import Cards</string>
+    <string name="import_description">Choose how you want to add your new flashcards.</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="choose_gallery">Choose from Gallery</string>
+    <string name="extract_text">Extract Text</string>
+    <string name="custom_text">Custom Text</string>
 </resources>

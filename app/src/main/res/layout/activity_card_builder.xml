@@ -1,104 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".CardBuilderActivity">
+    android:background="@color/surface">
 
-    <TextView
-        android:id="@+id/cardBuilderTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Card Builder"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="24dp">
 
-    <TextView
-        android:id="@+id/sourceLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Source text (OCR):"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/cardBuilderTitle"
-        app:layout_constraintStart_toStartOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/sourceEditText"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:gravity="top|start"
-        android:inputType="textMultiLine"
-        android:padding="8dp"
-        android:scrollbars="vertical"
-        android:background="@android:drawable/editbox_background"
-        android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/sourceLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+            <TextView
+                android:id="@+id/cardBuilderTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/card_builder_title"
+                android:textColor="@color/on_surface"
+                android:textSize="32sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/frontLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Front of Card:"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/sourceEditText"
-        app:layout_constraintStart_toStartOf="parent" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/sourceInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="@string/source_text_label"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/primary">
 
-    <EditText
-        android:id="@+id/frontEditText"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:hint="Enter question or term"
-        android:inputType="textMultiLine"
-        android:maxLength="500"
-        android:gravity="top|start"
-        android:padding="8dp"
-        android:scrollbars="vertical"
-        android:background="@android:drawable/editbox_background"
-        android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/frontLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sourceEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/on_surface" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/backLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back of Card:"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/frontEditText"
-        app:layout_constraintStart_toStartOf="parent" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/frontInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
 
-    <EditText
-        android:id="@+id/backEditText"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:hint="Enter answer or definition"
-        android:inputType="textMultiLine"
-        android:maxLength="500"
-        android:gravity="top|start"
-        android:padding="8dp"
-        android:scrollbars="vertical"
-        android:background="@android:drawable/editbox_background"
-        android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/backLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/secondary"
+                app:counterEnabled="true"
+                app:counterMaxLength="500">
 
-    <Button
-        android:id="@+id/doneButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/backEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/frontEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_front"
+                    android:inputType="textMultiLine"
+                    android:maxLength="500"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/on_surface" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/backInputLayout"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
+                app:boxStrokeColor="@color/primary"
+                app:counterEnabled="true"
+                app:counterMaxLength="500">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/backEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_back"
+                    android:inputType="textMultiLine"
+                    android:maxLength="500"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/on_surface" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/doneButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:text="@string/done"
+                android:padding="16dp"
+                app:cornerRadius="16dp"
+                app:backgroundTint="@color/secondary" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -62,12 +62,19 @@ public class ImportActivity extends AppCompatActivity {
         Button galleryButton = findViewById(R.id.galleryButton);
         Button takePhotoButton = findViewById(R.id.takePhotoButton);
         Button ocrButton = findViewById(R.id.ocrButton);
+        Button customTextButton = findViewById(R.id.customTextButton);
 
         galleryButton.setOnClickListener(v -> galleryLauncher.launch("image/*"));
 
         takePhotoButton.setOnClickListener(v -> openCamera());
 
         ocrButton.setOnClickListener(v -> extractText());
+
+        customTextButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ImportActivity.this, CardBuilderActivity.class);
+            intent.putExtra("deck_id", getIntent().getIntExtra("deck_id", -1));
+            startActivity(intent);
+        });
     }
 
     private void openCamera() {

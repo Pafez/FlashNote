@@ -1,6 +1,8 @@
 package com.pafez.flashnote;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ public class CardBuilderActivity extends AppCompatActivity {
     private FlashNoteDatabase database;
     private int deckId;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,17 @@ public class CardBuilderActivity extends AppCompatActivity {
         frontEditText = findViewById(R.id.frontEditText);
         backEditText = findViewById(R.id.backEditText);
         Button doneButton = findViewById(R.id.doneButton);
+
+        // Allow scrolling inside NestedScrollView
+        sourceEditText.setOnTouchListener((v, event) -> {
+            if (v.getId() == R.id.sourceEditText) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                    v.getParent().requestDisallowInterceptTouchEvent(false);
+                }
+            }
+            return false;
+        });
 
         // Get OCR text from intent
         String extractedText = getIntent().getStringExtra("extracted_text");

@@ -1,8 +1,12 @@
 package com.pafez.flashnote;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,24 +19,17 @@ public class CardAdapter
 
     private List<Card> cards;
     private final OnCardLongClickListener longClickListener;
-    private final OnCardClickListener clickListener;
 
     public interface OnCardLongClickListener {
         void onCardLongClick(Card card);
     }
 
-    public interface OnCardClickListener {
-        void onCardClick(Card card);
-    }
-
     public CardAdapter(
             List<Card> cards,
-            OnCardLongClickListener longClickListener,
-            OnCardClickListener clickListener) {
+            OnCardLongClickListener longClickListener) {
 
         this.cards = cards;
         this.longClickListener = longClickListener;
-        this.clickListener = clickListener;
     }
 
     public void updateCards(List<Card> newCards) {
@@ -66,17 +63,17 @@ public class CardAdapter
 
         Card card = cards.get(position);
 
-        String frontText = "Front: " + card.front;
-        String backText = "Back: " + card.back;
-        holder.cardFront.setText(frontText);
-        holder.cardBack.setText(backText);
+        holder.cardFront.setText(card.front);
+        holder.cardBack.setText(card.back);
 
-        // Click to view
-        holder.itemView.setOnClickListener(v -> {
-            if (clickListener != null) {
-                clickListener.onCardClick(card);
-            }
-        });
+        // Reset state for recycled view
+        holder.layoutFront.setVisibility(View.VISIBLE);
+        holder.layoutBack.setVisibility(View.GONE);
+        holder.itemView.setRotationY(0);
+        holder.isFlipped = false;
+
+        // Click to flip
+        holder.itemView.setOnClickListener(v -> flipCard(holder));
 
         // Long press
         holder.itemView.setOnLongClickListener(v -> {
@@ -90,6 +87,56 @@ public class CardAdapter
         });
     }
 
+    private void flipCard(CardViewHolder holder) {
+        final View view = holder.itemView;
+        final View front = holder.layoutFront;
+        final View back = holder.layoutBack;
+
+        // Disable elevation (shadow) during animation to prevent "ghost" panels
+        final float originalElevation = view.getElevation();
+        view.setElevation(0);
+
+        // Use hardware layer and high camera distance for smooth 3D
+        view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        float distance = 12000 * view.getContext().getResources().getDisplayMetrics().density;
+        view.setCameraDistance(distance);
+
+        view.animate()
+                .rotationY(90)
+                .setDuration(150)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (holder.isFlipped) {
+                            back.setVisibility(View.GONE);
+                            front.setVisibility(View.VISIBLE);
+                            holder.isFlipped = false;
+                        } else {
+                            front.setVisibility(View.GONE);
+                            back.setVisibility(View.VISIBLE);
+                            holder.isFlipped = true;
+                        }
+                        
+                        view.setRotationY(-90);
+                        view.animate()
+                                .rotationY(0)
+                                .setDuration(150)
+                                .setInterpolator(new AccelerateDecelerateInterpolator())
+                                .setListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        // Restore elevation and cleanup
+                                        view.setElevation(originalElevation);
+                                        view.setLayerType(View.LAYER_TYPE_NONE, null);
+                                    }
+                                })
+                                .start();
+                    }
+                })
+                .start();
+    }
+
     @Override
     public int getItemCount() {
 
@@ -101,21 +148,19 @@ public class CardAdapter
 
         TextView cardFront;
         TextView cardBack;
+        View layoutFront;
+        View layoutBack;
+        boolean isFlipped = false;
 
         public CardViewHolder(
                 @NonNull View itemView) {
 
             super(itemView);
 
-            cardFront =
-                    itemView.findViewById(
-                            R.id.cardFront
-                    );
-
-            cardBack =
-                    itemView.findViewById(
-                            R.id.cardBack
-                    );
+            cardFront = itemView.findViewById(R.id.cardFront);
+            cardBack = itemView.findViewById(R.id.cardBack);
+            layoutFront = itemView.findViewById(R.id.layoutFront);
+            layoutBack = itemView.findViewById(R.id.layoutBack);
         }
     }
 }

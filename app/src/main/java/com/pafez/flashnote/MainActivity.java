@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements DeckAdapter.OnDec
         database = FlashNoteDatabase.getInstance(getApplicationContext());
 
         RecyclerView decksRecyclerView = findViewById(R.id.decksRecyclerView);
-        FloatingActionButton addDeckButton = findViewById(R.id.addDeckButton);
+        ExtendedFloatingActionButton addDeckButton = findViewById(R.id.addDeckButton);
 
         deckAdapter = new DeckAdapter(new ArrayList<>(), this, this);
         decksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
