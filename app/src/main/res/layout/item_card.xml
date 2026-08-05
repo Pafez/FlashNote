@@ -21,26 +21,28 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/noteTitle"
+            android:id="@+id/cardFront"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:text="Note Title"
+            android:text="Front"
             android:textSize="18sp"
             android:textStyle="bold"
 
-            android:maxLines="1"
+            android:maxLines="2"
             android:ellipsize="end" />
 
         <TextView
-            android:id="@+id/noteDate"
+            android:id="@+id/cardBack"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginTop="6dp"
 
-            android:text="2 Aug 2026"
-            android:textSize="14sp" />
+            android:text="Back"
+            android:textSize="16sp"
+            android:maxLines="3"
+            android:ellipsize="end" />
 
     </LinearLayout>
 

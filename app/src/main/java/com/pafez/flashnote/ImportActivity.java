@@ -23,7 +23,7 @@ import java.io.File;
 
 public class ImportActivity extends AppCompatActivity {
 
-    private ImageView noteImagePreview;
+    private ImageView cardImagePreview;
 
     private Uri cameraImageUri;
     private Uri selectedImageUri;
@@ -35,7 +35,7 @@ public class ImportActivity extends AppCompatActivity {
                     uri -> {
                         if (uri != null) {
                             selectedImageUri = uri;
-                            noteImagePreview.setImageURI(uri);
+                            cardImagePreview.setImageURI(uri);
                         }
                     }
             );
@@ -47,7 +47,7 @@ public class ImportActivity extends AppCompatActivity {
                     success -> {
                         if (success && cameraImageUri != null) {
                             selectedImageUri = cameraImageUri;
-                            noteImagePreview.setImageURI(cameraImageUri);
+                            cardImagePreview.setImageURI(cameraImageUri);
                         }
                     }
             );
@@ -58,7 +58,7 @@ public class ImportActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_import);
 
-        noteImagePreview = findViewById(R.id.noteImagePreview);
+        cardImagePreview = findViewById(R.id.cardImagePreview);
 
         Button galleryButton = findViewById(R.id.galleryButton);
         Button takePhotoButton = findViewById(R.id.takePhotoButton);
@@ -81,7 +81,7 @@ public class ImportActivity extends AppCompatActivity {
 
         File imageFile = new File(
                 getCacheDir(),
-                "flashnote_camera_image.jpg"
+                "flashcard_camera_image.jpg"
         );
 
         cameraImageUri = FileProvider.getUriForFile(
@@ -134,12 +134,18 @@ public class ImportActivity extends AppCompatActivity {
 
                             Intent intent = new Intent(
                                     ImportActivity.this,
-                                    ReviewActivity.class
+                                    CardBuilderActivity.class
                             );
 
                             intent.putExtra(
                                     "extracted_text",
                                     extractedText
+                            );
+                            
+                            // Pass deck_id received from HomeActivity
+                            intent.putExtra(
+                                    "deck_id",
+                                    getIntent().getIntExtra("deck_id", -1)
                             );
 
                             startActivity(intent);

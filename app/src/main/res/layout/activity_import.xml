@@ -15,7 +15,7 @@
         android:id="@+id/importTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Import Notes"
+        android:text="Import Cards"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Take a photo of your notes or choose an existing image."
+        android:text="Take a photo of your cards or choose an existing image."
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,12 +35,12 @@
 
     <!-- Image preview area -->
     <ImageView
-        android:id="@+id/noteImagePreview"
+        android:id="@+id/cardImagePreview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
         android:background="#EEEEEE"
-        android:contentDescription="Preview of selected notes"
+        android:contentDescription="Preview of selected image"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@id/takePhotoButton"
         app:layout_constraintEnd_toEndOf="parent"

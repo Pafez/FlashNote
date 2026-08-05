@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".CardBuilderActivity">
+
+    <TextView
+        android:id="@+id/cardBuilderTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Card Builder"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/sourceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Source text (OCR):"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/cardBuilderTitle"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/sourceEditText"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/sourceLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/frontLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Front of Card:"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/sourceEditText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/frontEditText"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:hint="Enter question or term"
+        android:inputType="textMultiLine"
+        android:maxLength="500"
+        android:gravity="top|start"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/frontLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/backLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back of Card:"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/frontEditText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/backEditText"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:hint="Enter answer or definition"
+        android:inputType="textMultiLine"
+        android:maxLength="500"
+        android:gravity="top|start"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/backLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/doneButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/backEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

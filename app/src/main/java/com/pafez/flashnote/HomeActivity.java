@@ -16,60 +16,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity
-        implements NoteAdapter.OnNoteLongClickListener {
+        implements CardAdapter.OnCardLongClickListener, CardAdapter.OnCardClickListener {
 
-    private NoteAdapter noteAdapter;
-
+    private CardAdapter cardAdapter;
     private FlashNoteDatabase database;
-
     private TextView emptyStateText;
+    private TextView homeTitle;
+    
+    private int deckId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_home);
 
-        RecyclerView notesRecyclerView =
-                findViewById(R.id.notesRecyclerView);
+        deckId = getIntent().getIntExtra("deck_id", -1);
+        String deckName = getIntent().getStringExtra("deck_name");
 
-        FloatingActionButton addNoteButton =
-                findViewById(R.id.addNoteButton);
+        homeTitle = findViewById(R.id.homeTitle);
+        if (deckName != null) {
+            homeTitle.setText(deckName);
+        }
 
-        emptyStateText =
-                findViewById(R.id.emptyStateText);
+        RecyclerView cardsRecyclerView = findViewById(R.id.cardsRecyclerView);
+        FloatingActionButton addCardButton = findViewById(R.id.addCardButton);
+        emptyStateText = findViewById(R.id.emptyStateText);
 
-        // Get database
-        database =
-                FlashNoteDatabase.getInstance(
-                        getApplicationContext()
-                );
+        database = FlashNoteDatabase.getInstance(getApplicationContext());
 
-        // Create adapter
-        noteAdapter =
-                new NoteAdapter(
-                        new ArrayList<>(),
-                        this
-                );
+        cardAdapter = new CardAdapter(new ArrayList<>(), this, this);
+        cardsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        cardsRecyclerView.setAdapter(cardAdapter);
 
-        // RecyclerView setup
-        notesRecyclerView.setLayoutManager(
-                new LinearLayoutManager(this)
-        );
-
-        notesRecyclerView.setAdapter(
-                noteAdapter
-        );
-
-        // Add note button
-        addNoteButton.setOnClickListener(v -> {
-
-            Intent intent =
-                    new Intent(
-                            HomeActivity.this,
-                            ImportActivity.class
-                    );
-
+        addCardButton.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ImportActivity.class);
+            // Pass deckId forward so the builder knows where to save
+            intent.putExtra("deck_id", deckId);
             startActivity(intent);
         });
     }
@@ -77,81 +59,47 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-
-        loadNotes();
+        loadCards();
     }
 
-    private void loadNotes() {
-
+    private void loadCards() {
         new Thread(() -> {
-
-            List<Note> notes =
-                    database
-                            .noteDao()
-                            .getAllNotes();
+            List<Card> cards;
+            if (deckId != -1) {
+                cards = database.cardDao().getCardsForDeck(deckId);
+            } else {
+                cards = database.cardDao().getAllCards();
+            }
 
             runOnUiThread(() -> {
-
-                noteAdapter.updateNotes(notes);
-
-                // Update empty state
-                if (notes.isEmpty()) {
-
-                    emptyStateText.setVisibility(
-                            View.VISIBLE
-                    );
-
-                } else {
-
-                    emptyStateText.setVisibility(
-                            View.GONE
-                    );
-                }
+                cardAdapter.updateCards(cards);
+                emptyStateText.setVisibility(cards.isEmpty() ? View.VISIBLE : View.GONE);
             });
-
         }).start();
     }
 
-    // Called by NoteAdapter
-    // when a note is long-pressed
     @Override
-    public void onNoteLongClick(Note note) {
+    public void onCardClick(Card card) {
+        Intent intent = new Intent(this, CardViewActivity.class);
+        intent.putExtra("card_front", card.front);
+        intent.putExtra("card_back", card.back);
+        startActivity(intent);
+    }
 
+    @Override
+    public void onCardLongClick(Card card) {
         new AlertDialog.Builder(this)
-                .setTitle("Delete Note")
-                .setMessage(
-                        "Are you sure you want to delete this note?"
-                )
-                .setNegativeButton(
-                        "Cancel",
-                        null
-                )
-                .setPositiveButton(
-                        "Delete",
-                        (dialog, which) -> {
-
-                            deleteNote(note);
-                        }
-                )
+                .setTitle("Delete Card")
+                .setMessage("Are you sure you want to delete this card?")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Delete", (dialog, which) -> deleteCard(card))
                 .show();
     }
 
-    private void deleteNote(Note note) {
-
+    private void deleteCard(Card card) {
         new Thread(() -> {
-
-            // Delete from Room
-            database
-                    .noteDao()
-                    .delete(note);
-
-            // Reload the notes
-            runOnUiThread(() -> {
-
-                loadNotes();
-
-            });
-
+            database.cardDao().delete(card);
+            runOnUiThread(this::loadCards);
         }).start();
     }
 }

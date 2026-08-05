@@ -16,7 +16,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="20dp"
 
-        android:text="My Notes"
+        android:text="My Cards"
         android:textSize="28sp"
         android:textStyle="bold"
 
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:text="No notes yet.\nTap + to add one."
+        android:text="No cards yet.\nTap + to add one."
         android:textSize="18sp"
         android:gravity="center"
 
@@ -41,9 +41,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Notes list -->
+    <!-- Cards list -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notesRecyclerView"
+        android:id="@+id/cardsRecyclerView"
 
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -55,16 +55,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Add note button -->
+    <!-- Add card button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addNoteButton"
+        android:id="@+id/addCardButton"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:layout_margin="20dp"
 
-        android:contentDescription="Add Note"
+        android:contentDescription="Add Card"
         android:src="@android:drawable/ic_input_add"
 
         app:layout_constraintBottom_toBottomOf="parent"

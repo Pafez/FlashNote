@@ -7,13 +7,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 @Database(
-        entities = {Note.class},
-        version = 1,
+        entities = {Card.class, Deck.class},
+        version = 4,
         exportSchema = false
 )
 public abstract class FlashNoteDatabase extends RoomDatabase {
 
-    public abstract NoteDao noteDao();
+    public abstract CardDao cardDao();
+    public abstract DeckDao deckDao();
 
     private static volatile FlashNoteDatabase INSTANCE;
 
@@ -29,7 +30,9 @@ public abstract class FlashNoteDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             FlashNoteDatabase.class,
                             "flashnote_database"
-                    ).build();
+                    )
+                    .fallbackToDestructiveMigration()
+                    .build();
                 }
             }
         }
