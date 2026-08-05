@@ -34,9 +34,7 @@ public class CardBuilderActivity extends AppCompatActivity {
             sourceEditText.setText(extractedText);
         }
 
-        doneButton.setOnClickListener(v -> {
-            saveCard();
-        });
+        doneButton.setOnClickListener(v -> saveCard());
     }
 
     private void saveCard() {
@@ -48,9 +46,10 @@ public class CardBuilderActivity extends AppCompatActivity {
             return;
         }
 
-        if (deckId == -1) {
-            Toast.makeText(this, "Error: No deck selected", Toast.LENGTH_SHORT).show();
-            return;
+        switch (deckId) {
+            case -1:
+                Toast.makeText(this, "Error: No deck selected", Toast.LENGTH_SHORT).show();
+                return;
         }
 
         new Thread(() -> {

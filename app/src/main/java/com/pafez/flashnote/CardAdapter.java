@@ -14,9 +14,8 @@ public class CardAdapter
         extends RecyclerView.Adapter<CardAdapter.CardViewHolder> {
 
     private List<Card> cards;
-
-    private OnCardLongClickListener longClickListener;
-    private OnCardClickListener clickListener;
+    private final OnCardLongClickListener longClickListener;
+    private final OnCardClickListener clickListener;
 
     public interface OnCardLongClickListener {
         void onCardLongClick(Card card);
@@ -67,8 +66,10 @@ public class CardAdapter
 
         Card card = cards.get(position);
 
-        holder.cardFront.setText("Front: " + card.front);
-        holder.cardBack.setText("Back: " + card.back);
+        String frontText = "Front: " + card.front;
+        String backText = "Back: " + card.back;
+        holder.cardFront.setText(frontText);
+        holder.cardBack.setText(backText);
 
         // Click to view
         holder.itemView.setOnClickListener(v -> {
@@ -95,7 +96,7 @@ public class CardAdapter
         return cards == null ? 0 : cards.size();
     }
 
-    static class CardViewHolder
+    public static class CardViewHolder
             extends RecyclerView.ViewHolder {
 
         TextView cardFront;

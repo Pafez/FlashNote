@@ -13,6 +13,12 @@ public interface CardDao {
     @Insert
     void insert(Card card);
 
+    @androidx.room.Update
+    void update(Card card);
+
+    @Query("SELECT * FROM cards WHERE id = :cardId")
+    Card getCardById(int cardId);
+
     @Query("SELECT * FROM cards ORDER BY createdAt DESC")
     List<Card> getAllCards();
 

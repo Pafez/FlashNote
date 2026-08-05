@@ -13,15 +13,21 @@ import java.util.List;
 public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder> {
 
     private List<Deck> decks;
-    private OnDeckClickListener clickListener;
+    private final OnDeckClickListener clickListener;
+    private final OnDeckLongClickListener longClickListener;
 
     public interface OnDeckClickListener {
         void onDeckClick(Deck deck);
     }
 
-    public DeckAdapter(List<Deck> decks, OnDeckClickListener clickListener) {
+    public interface OnDeckLongClickListener {
+        void onDeckLongClick(Deck deck);
+    }
+
+    public DeckAdapter(List<Deck> decks, OnDeckClickListener clickListener, OnDeckLongClickListener longClickListener) {
         this.decks = decks;
         this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
     }
 
     public void updateDecks(List<Deck> newDecks) {
@@ -47,6 +53,13 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
                 clickListener.onDeckClick(deck);
             }
         });
+
+        holder.itemView.setOnLongClickListener(v -> {
+            if (longClickListener != null) {
+                longClickListener.onDeckLongClick(deck);
+            }
+            return true;
+        });
     }
 
     @Override
@@ -54,7 +67,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckAdapter.DeckViewHolder
         return decks != null ? decks.size() : 0;
     }
 
-    static class DeckViewHolder extends RecyclerView.ViewHolder {
+    public static class DeckViewHolder extends RecyclerView.ViewHolder {
         TextView deckNameText;
 
         public DeckViewHolder(@NonNull View itemView) {

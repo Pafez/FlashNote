@@ -21,7 +21,6 @@ public class HomeActivity extends AppCompatActivity
     private CardAdapter cardAdapter;
     private FlashNoteDatabase database;
     private TextView emptyStateText;
-    private TextView homeTitle;
     
     private int deckId;
 
@@ -33,7 +32,7 @@ public class HomeActivity extends AppCompatActivity
         deckId = getIntent().getIntExtra("deck_id", -1);
         String deckName = getIntent().getStringExtra("deck_name");
 
-        homeTitle = findViewById(R.id.homeTitle);
+        TextView homeTitle = findViewById(R.id.homeTitle);
         if (deckName != null) {
             homeTitle.setText(deckName);
         }
@@ -81,6 +80,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public void onCardClick(Card card) {
         Intent intent = new Intent(this, CardViewActivity.class);
+        intent.putExtra("card_id", card.id);
         intent.putExtra("card_front", card.front);
         intent.putExtra("card_back", card.back);
         startActivity(intent);

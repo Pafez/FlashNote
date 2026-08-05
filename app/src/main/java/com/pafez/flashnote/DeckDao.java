@@ -13,12 +13,12 @@ public interface DeckDao {
     @Insert
     long insert(Deck deck);
 
+    @androidx.room.Update
+    void update(Deck deck);
+
     @Query("SELECT * FROM decks")
     List<Deck> getAllDecks();
 
     @Delete
     void delete(Deck deck);
-
-    @Query("SELECT COUNT(*) FROM decks")
-    int getDeckCount();
 }

@@ -12,7 +12,6 @@ import androidx.core.content.FileProvider;
 import android.widget.Toast;
 
 import com.google.mlkit.vision.common.InputImage;
-import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
@@ -64,17 +63,11 @@ public class ImportActivity extends AppCompatActivity {
         Button takePhotoButton = findViewById(R.id.takePhotoButton);
         Button ocrButton = findViewById(R.id.ocrButton);
 
-        galleryButton.setOnClickListener(v -> {
-            galleryLauncher.launch("image/*");
-        });
+        galleryButton.setOnClickListener(v -> galleryLauncher.launch("image/*"));
 
-        takePhotoButton.setOnClickListener(v -> {
-            openCamera();
-        });
+        takePhotoButton.setOnClickListener(v -> openCamera());
 
-        ocrButton.setOnClickListener(v -> {
-            extractText();
-        });
+        ocrButton.setOnClickListener(v -> extractText());
     }
 
     private void openCamera() {
