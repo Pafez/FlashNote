@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -31,6 +32,12 @@ public class MainActivity extends AppCompatActivity implements DeckAdapter.OnDec
 
         RecyclerView decksRecyclerView = findViewById(R.id.decksRecyclerView);
         ExtendedFloatingActionButton addDeckButton = findViewById(R.id.addDeckButton);
+        ImageButton settingsButton = findViewById(R.id.settingsButton);
+
+        settingsButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
 
         deckAdapter = new DeckAdapter(new ArrayList<>(), this, this);
         decksRecyclerView.setLayoutManager(new LinearLayoutManager(this));

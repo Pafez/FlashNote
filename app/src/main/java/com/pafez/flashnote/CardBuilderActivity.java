@@ -11,11 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class CardBuilderActivity extends AppCompatActivity {
 
+    private EditText sourceEditText;
     private EditText frontEditText;
     private EditText backEditText;
     
     private FlashNoteDatabase database;
     private int deckId;
+    private GeminiClient geminiClient;
+    private GeminiSettings geminiSettings;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -26,10 +29,14 @@ public class CardBuilderActivity extends AppCompatActivity {
         database = FlashNoteDatabase.getInstance(getApplicationContext());
         deckId = getIntent().getIntExtra("deck_id", -1);
 
-        EditText sourceEditText = findViewById(R.id.sourceEditText);
+        geminiClient = new GeminiClient();
+        geminiSettings = new GeminiSettings(getApplicationContext());
+
+        sourceEditText = findViewById(R.id.sourceEditText);
         frontEditText = findViewById(R.id.frontEditText);
         backEditText = findViewById(R.id.backEditText);
         Button doneButton = findViewById(R.id.doneButton);
+        Button generateAiButton = findViewById(R.id.generateAiButton);
 
         // Allow scrolling inside NestedScrollView
         sourceEditText.setOnTouchListener((v, event) -> {
@@ -41,6 +48,7 @@ public class CardBuilderActivity extends AppCompatActivity {
             }
             return false;
         });
+        generateAiButton.setOnClickListener(v -> generateWithAi());
 
         // Get OCR text from intent
         String extractedText = getIntent().getStringExtra("extracted_text");
@@ -49,6 +57,88 @@ public class CardBuilderActivity extends AppCompatActivity {
         }
 
         doneButton.setOnClickListener(v -> saveCard());
+    }
+
+    private void generateWithAi() {
+
+        String sourceText = sourceEditText.getText().toString().trim();
+
+        if (sourceText.isEmpty()) {
+            Toast.makeText(
+                    this,
+                    "Enter some source text first",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
+
+        String apiKey = geminiSettings.getApiKey();
+
+        if (apiKey.isEmpty()) {
+            Toast.makeText(
+                    this,
+                    "Set your Gemini API key in Settings first",
+                    Toast.LENGTH_LONG
+            ).show();
+
+            return;
+        }
+
+        Toast.makeText(
+                this,
+                "Generating card...",
+                Toast.LENGTH_SHORT
+        ).show();
+
+        geminiClient.generateCard(
+                apiKey,
+                sourceText,
+                new GeminiClient.Callback() {
+
+                    @Override
+                    public void onSuccess(
+                            String question,
+                            String answer
+                    ) {
+
+                        runOnUiThread(() -> {
+
+                            frontEditText.setText(question);
+                            backEditText.setText(answer);
+
+                            Toast.makeText(
+                                    CardBuilderActivity.this,
+                                    "Card generated!",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        });
+                    }
+                    @Override
+                    public void onError(String error) {
+
+                        runOnUiThread(() -> {
+
+                            if (error.startsWith("Gemini API error 503")) {
+
+                                Toast.makeText(
+                                        CardBuilderActivity.this,
+                                        "Gemini currently in high demand",
+                                        Toast.LENGTH_LONG
+                                ).show();
+
+                            } else {
+
+                                Toast.makeText(
+                                        CardBuilderActivity.this,
+                                        "Generation failed: " + error,
+                                        Toast.LENGTH_LONG
+                                ).show();
+                            }
+                        });
+                    }
+                }
+        );
     }
 
     private void saveCard() {

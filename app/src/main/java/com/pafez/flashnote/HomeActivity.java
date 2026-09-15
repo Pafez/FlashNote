@@ -39,6 +39,7 @@ public class HomeActivity extends AppCompatActivity
 
         RecyclerView cardsRecyclerView = findViewById(R.id.cardsRecyclerView);
         ExtendedFloatingActionButton addCardButton = findViewById(R.id.addCardButton);
+
         emptyStateText = findViewById(R.id.emptyStateText);
 
         database = FlashNoteDatabase.getInstance(getApplicationContext());
