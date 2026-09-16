@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class GeminiClient {
 
-    private static final String MODEL = "gemini-3.6-flash";
+    private static final String MODEL = "gemini-3.5-flash-lite";
 
     private static final String API_URL =
             "https://generativelanguage.googleapis.com/v1beta/models/"
