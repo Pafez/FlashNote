@@ -24,4 +24,17 @@
     <string name="choose_gallery">Choose from Gallery</string>
     <string name="extract_text">Extract Text</string>
     <string name="custom_text">Custom Text</string>
+    <string name="study_deck">Study Deck</string>
+    <string name="review_all_cram">Review All (Cram)</string>
+    <string name="due_count_format">%1$d cards due today</string>
+    <string name="deck_score_format">Deck Score: %1$d%%</string>
+    <string name="card_progress_format">Card %1$d of %2$d</string>
+    <string name="score_format">Score: %1$d / 4</string>
+    <string name="all_caught_up_title">You\'re all caught up for today!</string>
+    <string name="all_caught_up_subtitle">To review cards ahead of schedule, go back and use Cram Mode.</string>
+    <string name="cards_reviewed_format">Cards Reviewed: %1$d</string>
+    <string name="correct_count_format">Correct: %1$d</string>
+    <string name="incorrect_count_format">Incorrect: %1$d</string>
+    <string name="correct_stat_format">Correct: %1$d</string>
+    <string name="needs_review_stat_format">Needs Review: %1$d</string>
 </resources>

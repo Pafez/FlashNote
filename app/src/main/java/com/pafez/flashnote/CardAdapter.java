@@ -3,6 +3,7 @@ package com.pafez.flashnote;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,20 @@ public class CardAdapter
 
         holder.cardFront.setText(card.front);
         holder.cardBack.setText(card.back);
+
+        if (holder.masteryIndicator != null) {
+            int interval = card.interval;
+            if (interval == 0) {
+                holder.masteryIndicator.setText("New");
+                holder.masteryIndicator.setTextColor(Color.parseColor("#E53935"));
+            } else if (interval < 21) {
+                holder.masteryIndicator.setText("Learning");
+                holder.masteryIndicator.setTextColor(Color.parseColor("#1E88E5"));
+            } else {
+                holder.masteryIndicator.setText("Mastered");
+                holder.masteryIndicator.setTextColor(Color.parseColor("#43A047"));
+            }
+        }
 
         // Reset state for recycled view
         holder.layoutFront.setVisibility(View.VISIBLE);
@@ -148,6 +163,7 @@ public class CardAdapter
 
         TextView cardFront;
         TextView cardBack;
+        TextView masteryIndicator;
         View layoutFront;
         View layoutBack;
         boolean isFlipped = false;
@@ -159,6 +175,7 @@ public class CardAdapter
 
             cardFront = itemView.findViewById(R.id.cardFront);
             cardBack = itemView.findViewById(R.id.cardBack);
+            masteryIndicator = itemView.findViewById(R.id.masteryIndicator);
             layoutFront = itemView.findViewById(R.id.layoutFront);
             layoutBack = itemView.findViewById(R.id.layoutBack);
         }

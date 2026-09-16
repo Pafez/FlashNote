@@ -47,8 +47,7 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="24dp"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/cardBack"
@@ -59,6 +58,20 @@
                 android:textColor="@color/primary"
                 android:textSize="20sp" />
         </LinearLayout>
+
+        <!-- Mastery Indicator in Top Right Corner -->
+        <TextView
+            android:id="@+id/masteryIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="12dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="New"
+            android:textColor="@color/secondary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
     </FrameLayout>
 

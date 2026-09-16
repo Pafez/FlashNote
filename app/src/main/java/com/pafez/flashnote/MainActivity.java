@@ -1,6 +1,8 @@
 package com.pafez.flashnote;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.widget.EditText;
@@ -8,20 +10,36 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements DeckAdapter.OnDeckClickListener, DeckAdapter.OnDeckLongClickListener {
 
     private FlashNoteDatabase database;
     private DeckAdapter deckAdapter;
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    /* Permission granted, WorkManager will handle the rest */
+                } else {
+                    Toast.makeText(this, "Notifications disabled. You won't receive study reminders.", Toast.LENGTH_LONG).show();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +62,26 @@ public class MainActivity extends AppCompatActivity implements DeckAdapter.OnDec
         decksRecyclerView.setAdapter(deckAdapter);
 
         addDeckButton.setOnClickListener(v -> showAddDeckDialog());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+
+        scheduleStudyReminder();
+    }
+
+    private void scheduleStudyReminder() {
+        PeriodicWorkRequest reminderWorkRequest =
+                new PeriodicWorkRequest.Builder(StudyReminderWorker.class, 24, TimeUnit.HOURS)
+                        .build();
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+                "StudyReminderWorker",
+                ExistingPeriodicWorkPolicy.KEEP,
+                reminderWorkRequest
+        );
     }
 
     @Override
