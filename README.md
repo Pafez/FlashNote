@@ -984,11 +984,9 @@ GitHub:
 
 # License
 
-FlashNote currently has **no license**.
+FlashNote is under the **MIT License**.
 
-If the project contributors decide to release the project under the MIT License, an MIT `LICENSE` file can be added to the repository. MIT does not require an application or approval process; it is a license granted by the copyright holder(s).
-
-For a team project, all relevant copyright holders should agree before relicensing the project. If the project was created under a university, employer, course, or other agreement that affects ownership of the code, that agreement should be checked first.
+Copyright (c) 2026 S. H. Pafez
 
 ---
 
