@@ -2,6 +2,8 @@
 
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Pafez%2FFlashNote-181717?logo=github)](https://github.com/Pafez/FlashNote)
 
+[![Watch the Presentation video](https://youtube.com)](https://youtu.be/PCFgivFdfRI)
+
 FlashNote is a native Android flashcard application that turns photographed notes into editable study material and combines **OCR, AI-assisted flashcard generation, active recall, AI answer grading, and SM-2 spaced repetition** into one study workflow.
 
 The core idea is:
